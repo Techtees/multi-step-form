@@ -11,6 +11,7 @@ export default {
       'bg-b': '#D6D9E6',
       'light-blue': '#ABBCFF',
       'denim': '#022959',
+      'grey': '#9699AA',
       'light-grey': '#D6D9E6',
       'orange': '#FFAF7E',
       'pink': '#F9818E',
