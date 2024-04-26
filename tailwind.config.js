@@ -8,7 +8,7 @@ export default {
   theme: {
     colors: {
       'bgColor':'#EFF5FF',
-      'bg-b': '#D6D9E6',
+      'borderColor': '#D6D9E6',
       'light-blue': '#ABBCFF',
       'denim': '#022959',
       'grey': '#9699AA',
