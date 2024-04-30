@@ -7,7 +7,7 @@ export function Plan () {
     return(
         <>
             <FormWrapper titleHeading="Select your plan" titleInfo="You have the option of monthly or yearly billing.">
-               <div className="flex space-x-4">
+               <div className="flex flex-col gap-5 lg:gap-0 lg:flex-row lg:space-x-4">
                     <RadioInput
                         name={"plan"}
                         id={"arcade"}
