@@ -20,10 +20,10 @@ const handleSubmit = (e) => {
 
  return(
     <>
-        <div className="mx-auto w-[60%] max-w-[450px] items-start relative">
+        <div className=" mx-auto max-w-[300px] md:max-w-[500px] shadow-md lg:shadow-none rounded-lg z-10 -top-[70px] lg:-top-[0] lg:w-[60%] lg:max-w-[450px]  items-start relative  bg-white p-5">
             <form onSubmit={handleSubmit}>
                 {step}
-                <div className="absolute bottom-6  w-full">
+                <div className="fixed bottom-0 p-4 lg:p-0 lg:absolute left-0 bg-white lg:bottom-3  w-full">
                     <div className={`flex ${!isFirstStep ? 'justify-between' : 'justify-end'}`}>
                         {!isFirstStep && <Button text = 'Go Back' btnType="primary" type="button" onClick={back} />}
                         <Button 
