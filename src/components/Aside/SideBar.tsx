@@ -1,35 +1,40 @@
+import { useStepContext } from '../../context/stepContext';
 import sideShape from '../../assets/sideShape.svg';
+import { Steps } from './Steps';
 
-import { StepTypes, Steps } from './Steps';
 
-const stepData : Array<StepTypes> = [
+const stepData : Array<StepDataType> = [
     {
-        stepNo: '1',
+        stepNo: 1,
         stepTitle: 'YOUR INFO'
     },
     {
-        stepNo: '2',
+        stepNo: 2,
         stepTitle: 'SELECT PLAN'
     },
     {
-        stepNo: '3',
+        stepNo: 3,
         stepTitle: 'ADD-ONS'
     },
     {
-        stepNo: '4',
+        stepNo: 4,
         stepTitle: 'SUMMARY'
     },
 ]
 
+
+
 function SideBar() {
+    const {currentStepIndex} = useStepContext()
+
     return ( 
         <div className='overflow-hidden relative bg-purple w-full h-[172px] lg:h-[528px] lg:w-[30%]  lg:rounded-lg'>
             <div className='flex justify-center mt-[28px] lg:mt-0 lg:justify-between lg:w-[153px] h-[228px] lg:absolute left-[25px] top-[30px] lg:flex-col '>
               {
-                stepData.map((data,index) => {
+                stepData.map((data,index,) => {
                     const {stepNo, stepTitle} = data
                     return(
-                        <Steps key={index} stepNo={stepNo} stepTitle={stepTitle} />
+                        <Steps key={index} stepNo={stepNo} stepTitle={stepTitle} currStep={currentStepIndex}   />
                     )
                 })
               }
