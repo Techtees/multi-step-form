@@ -1,25 +1,14 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { useState, ReactNode } from 'react';
 
-interface StepContextType {
-    isFirstStep: boolean;
-    currentStepIndex: number;
-    step: React.ReactElement;
-    next: () => void;
-    back: () => void;
-    goTo: (index: number) => void;
+interface StepProviderProps {
+    steps?: React.ReactElement[];
+    children: ReactNode;
 }
 
-const StepContext = createContext<StepContextType | undefined>(undefined);
 
-export const useStepContext = () => {
-    const context = useContext(StepContext);
-    if (!context) {
-        throw new Error('useStepContext must be used within a StepProvider');
-    }
-    return context;
-};
 
-export const StepProvider: React.FC<{ steps: React.ReactElement[], children: ReactNode}> = ( {children ,  steps} ) => {
+
+const useStepProvider = (steps: React.ReactElement[]) => {
     const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
     const next = () => {
@@ -37,7 +26,7 @@ export const StepProvider: React.FC<{ steps: React.ReactElement[], children: Rea
     const isFirstStep = currentStepIndex === 0;
     const step = steps[currentStepIndex];
 
-    const value: StepContextType = {
+    return {
         isFirstStep,
         currentStepIndex,
         step,
@@ -45,6 +34,15 @@ export const StepProvider: React.FC<{ steps: React.ReactElement[], children: Rea
         back,
         goTo
     };
-
-    return <StepContext.Provider value={value}>{children}</StepContext.Provider>;
 };
+
+const StepProvider: React.FC<StepProviderProps> = ({ steps = [], children }) => {
+    const stepProviderValue = useStepProvider(steps);
+    return <>{children}</>;
+};
+
+export const useStepContext = (steps: React.ReactElement[] = []) => {
+    return useStepProvider(steps);
+};
+
+export default StepProvider;
