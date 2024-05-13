@@ -1,7 +1,7 @@
 import { FormWrapper } from "../../Forms/FormWrapper";
 import { CheckBox } from "../../../utils/Inputs/CheckBox";
 
-export const Addons = () => {
+const Addons = () => {
     return(
         <FormWrapper titleHeading="Pick add-ons" titleInfo="Add-ons help enhance your gaming experience.">
             <div className="space-y-4">
@@ -31,3 +31,5 @@ export const Addons = () => {
         </FormWrapper>
     )
 }
+
+export default Addons

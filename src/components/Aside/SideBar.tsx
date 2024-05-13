@@ -1,9 +1,9 @@
-import { useStepContext } from '../../context/stepContext';
 import sideShape from '../../assets/sideShape.svg';
 import { Steps } from './Steps';
+import { StepDataType } from '../../types/global';
 
 
-const stepData : Array<StepDataType> = [
+const stepData : StepDataType[] = [
     {
         stepNo: 1,
         stepTitle: 'YOUR INFO'
@@ -22,19 +22,23 @@ const stepData : Array<StepDataType> = [
     },
 ]
 
+type SideBarProp = {
+    currStep: number
+}
 
 
-function SideBar() {
-    const {currentStepIndex} = useStepContext()
+const  SideBar: React.FC<SideBarProp> = ({currStep}) => {
 
     return ( 
+
+        
         <div className='overflow-hidden relative bg-purple w-full h-[172px] lg:h-[528px] lg:w-[30%]  lg:rounded-lg'>
             <div className='flex justify-center mt-[28px] lg:mt-0 lg:justify-between lg:w-[153px] h-[228px] lg:absolute left-[25px] top-[30px] lg:flex-col '>
               {
                 stepData.map((data,index,) => {
                     const {stepNo, stepTitle} = data
                     return(
-                        <Steps key={index} stepNo={stepNo} stepTitle={stepTitle} currStep={currentStepIndex}   />
+                        <Steps key={index} stepNo={stepNo} stepTitle={stepTitle} currStep={currStep}   />
                     )
                 })
               }

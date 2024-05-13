@@ -1,6 +1,6 @@
 import { FormWrapper } from "../../Forms/FormWrapper"
 
-export const Summary = () => {
+const Summary = () => {
     return(
         <>
             <FormWrapper titleHeading="FInishing Up" titleInfo="Double-check everything looks OK before confirming.">
@@ -31,3 +31,5 @@ export const Summary = () => {
         </>
     )
 }
+
+export default Summary
