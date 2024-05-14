@@ -1,8 +1,9 @@
 type ButtonProps = {
     text: string;
-    onClick: () => void;
+    onClick?: () => void;
     type?: "button" | "submit" | "reset";
-    btnType: string,
+    btnType: string;
+    disabled?: boolean;
 }
 
 export const Button = ({text, onClick, type, btnType} : ButtonProps) => {
