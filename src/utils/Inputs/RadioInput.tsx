@@ -1,17 +1,19 @@
+import { ChangeEvent } from "react"
+
 type RadioProps = {
     id: string;
     name: string;
     checked: boolean;
-    icon: React.ReactNode;
+    icon: JSX.Element;
     info: string;
     title: string;
     price: string;
-    onChange: () => void;
-
+    value: string
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 
-export const RadioInput = ({ name, id, info, checked, icon, title, price} : RadioProps) => {
+export const RadioInput = ({ name, id, info, checked, icon, title, price, onChange} : RadioProps) => {
     return(
         <>
             <label className="w-full lg:h-[180px]">
@@ -21,6 +23,7 @@ export const RadioInput = ({ name, id, info, checked, icon, title, price} : Radi
                     type="radio"
                     className=" peer hidden " 
                     checked={checked}
+                    onChange={onChange}
                 />
                 <div className="flex gap-3 lg:gap-0 cursor-pointer  lg:flex-col lg:justify-between w-full h-fit lg:h-full rounded-lg border-borderColor p-3 lg:p-5 border hover:ring-1 hover:ring-purple peer-checked:ring-1 peer-checked: ring-purple ">
                     {icon}
