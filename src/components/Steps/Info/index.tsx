@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { useFormContext } from '../../../context/formContext';
 
 import { FormWrapper } from '../../Forms/FormWrapper';
@@ -18,7 +18,6 @@ type UserProp = UserData & {
 }
 
  const Info: React.FC<UserProp> = () => {
-    const [info, InfoData] = useState()
     const { data, handleChange, error,emailError, phoneError } = useFormContext();
     console.log(emailError)
 
