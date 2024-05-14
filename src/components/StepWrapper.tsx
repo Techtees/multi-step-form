@@ -5,7 +5,6 @@ import {InfoStep, AddonsStep, SummaryStep, PlanStep} from './Steps'
 import SideBar from "./Aside/SideBar"
 
 import { useStepContext } from '../context/stepContext';
-// import { useFormContext } from '../context/formContext';
 
 import { Button } from '../utils/Button';
 import {useFormContext} from '../context/formContext';
@@ -13,18 +12,18 @@ import {useFormContext} from '../context/formContext';
 
 export const StepWrapper: React.FC = () => {
 
-const {data, validate, setError, error, emailError, phoneError,  setEmailError, setPhoneError} = useFormContext()
+    const {data, validate, setError, error, emailError, phoneError,  setEmailError, setPhoneError, setPlanError} = useFormContext()
 
-console.log(emailError)
-const stepl = [<InfoStep {...data}  error ={ error} eamilError= {emailError} phoneError={phoneError}  />, <PlanStep  />, <AddonsStep />, <SummaryStep />]
-const { next, back, isFirstStep, step, currentStepIndex,  } = useStepContext(stepl);
-    console.log(data)
-    
+    const handleNextStep = () => {
+        next();
+    };
+    const stepl = [<InfoStep {...data}  error ={ error} eamilError= {emailError} phoneError={phoneError}  />, <PlanStep  />, <AddonsStep />, <SummaryStep />]
+    const { next, back, isFirstStep, step, currentStepIndex,  } = useStepContext(stepl);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const {fullName, email, phone} = data
+        const {fullName, email, phone,} = data
 
         // Validate each field individually
         const fullNameError = validate('fullName', fullName);
@@ -37,15 +36,23 @@ const { next, back, isFirstStep, step, currentStepIndex,  } = useStepContext(ste
 
     
         // Check if any field has an error
-        if (fullNameError || emailError || phoneError) {
+        if (fullNameError || emailError || phoneError ) {
             return fullNameError || emailError || phoneError; // Do not proceed if any field has an error
         }
 
-            // Proceed to the next step if there are no errors
-            next();
-            
-        
-        // next()
+        // Check for error on planForm 
+        if (currentStepIndex === 1) {
+            const { packageName, packagePrice } = data.plan.package;
+            if (!packageName || !packagePrice) {
+                setPlanError('Please select a plan');
+                return;
+            } 
+        }
+
+        handleNextStep()
+
+     
+
     };
     
 
