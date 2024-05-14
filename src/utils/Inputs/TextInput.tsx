@@ -22,7 +22,7 @@ export const TextInput: React.FC<InputType> = ({ name, placeholder, type, label,
                     type={type}
                     value={value}
                     placeholder={placeholder}
-                    className={`rounded-lg border border-borderColor h-[42px] outline-none focus:border-purple p-2 placeholder:text-md p-2 text-denim font-[500]  ${((error || emailError || phoneError) && 'border-red') || ' '}`}
+                    className={`rounded-lg border border-borderColor h-[42px] outline-none focus:border-purple p-2 placeholder:text-md  text-denim font-[500]  ${((error || emailError || phoneError) && 'border-red') || ' '}`}
                     onChange={onChange}
                 />
   
