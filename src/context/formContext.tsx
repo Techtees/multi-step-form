@@ -33,11 +33,12 @@ const initialData: FormData = {
     phone: '',
     plan: {
         planType: '',
-        package: {
+        packageInfo: {
             packageName: '',
-            packagePrice: ''
+            packagePrice: 0,
         },
-    }
+    },
+    addons:[]
 };
 
 export const FormProvider: React.FC<{ children: ReactNode}> = ({children}) => {
