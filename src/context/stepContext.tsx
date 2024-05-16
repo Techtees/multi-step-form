@@ -1,11 +1,4 @@
-import React, { useState, ReactNode } from 'react';
-
-interface StepProviderProps {
-    steps?: React.ReactElement[];
-    children: ReactNode;
-}
-
-
+import React, { useState } from 'react';
 
 
 const useStepProvider = (steps: React.ReactElement[]) => {
@@ -36,13 +29,9 @@ const useStepProvider = (steps: React.ReactElement[]) => {
     };
 };
 
-const StepProvider: React.FC<StepProviderProps> = ({ steps = [], children }) => {
-    const stepProviderValue = useStepProvider(steps);
-    return <>{children}</>;
-};
+
 
 export const useStepContext = (steps: React.ReactElement[] = []) => {
     return useStepProvider(steps);
 };
 
-export default StepProvider;
