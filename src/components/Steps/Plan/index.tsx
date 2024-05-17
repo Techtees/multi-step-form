@@ -5,150 +5,139 @@ import { ArcadeSvg, ProSvg, AdvanceSvg } from "../../../utils/Svgs";
 import { ToggleSwitch } from "../../../utils/Inputs/ToggleSwitch";
 import { useFormContext } from "../../../context/formContext";
 
-
 interface PackageDetails {
     packageName: string;
-    packagePrice: string;
+    packagePrice: number;
 }
 interface Price {
-    arcadePrice: string;
-    advancedPrice: string;
-    proPrice: string;
+    arcadePrice: number;
+    advancedPrice: number;
+    proPrice: number;
 }
 
+const Plan = () => {
+    const { planError, setPlanError, data, updateFields, resetAddons } = useFormContext();
+    const { plan } = data;
 
-interface PlanProps {
-    billingTy: string,
-    price: Price,
-    info: string
-}
+    const [billingType, setBillingType] = useState(plan.planType);
+    const [prices, setPrices] = useState<Price>({
+        arcadePrice: 9 ,
+        advancedPrice: 12,
+        proPrice: 15,
+    });
 
-const PlanData: PlanProps = {
-    billingTy: '',
-    price: {
-        arcadePrice: '',
-        advancedPrice: '',
-        proPrice:'',
-    },
-    info: ''
-}
-
-
-
- const Plan = () => {
-    const {planError, setPlanError} = useFormContext()
-
-    const {data, updateFields} = useFormContext()
-    const {plan} = data
-    const [billingType, setBillingType] = useState(plan.planType)
     const [selectValue, setSelect] = useState<PackageDetails>({
-        packageName: plan.package.packageName,
-        packagePrice: plan.package.packagePrice,
-    })
+        packageName: plan.packageInfo.packageName,
+        packagePrice: plan.packageInfo.packagePrice,
+    });
 
-    
-    const { arcadePrice, advancedPrice, proPrice } = PlanData.price;   
-    
-    
-    
-    const handleChange = (newValue: PackageDetails) => {
-        setPlanError('')
-        setSelect(newValue)
+    useEffect(() => {
+
+
+        const newPrices = billingType === 'monthly' ? {
+            arcadePrice: 9,
+            advancedPrice: 12,
+            proPrice: 15,
+        } : {
+            arcadePrice: 90,
+            advancedPrice: 120,
+            proPrice: 150,
+        };
+
+        setPrices(newPrices);
+
+        if(plan.planType.trim() === ''){
+            setBillingType('yearly')
+        } else{
+            setBillingType(billingType)
+        }
+
+        const updatedPackagePrice = selectValue.packageName === 'arcade' ? newPrices.arcadePrice : selectValue.packageName === 'advanced' ? newPrices.advancedPrice : selectValue.packageName === 'pro' ? newPrices.proPrice : 0;
+
+        const updatedSelectValue = { ...selectValue, packagePrice: updatedPackagePrice };
+        
+        setSelect(updatedSelectValue);
+
+        // Update the global state as well
         const updatedPlan = {
             ...plan,
-            package: {
-                ...plan.package,
-                packageName: newValue.packageName,
-                packagePrice: newValue.packagePrice,
-            },
+            planType: billingType,
+            packageInfo: updatedSelectValue,
+        };
+        updateFields({ plan: updatedPlan });
+    }, [billingType]);
+
+    const handleChange = (newValue: PackageDetails) => {
+        setPlanError('');
+        setSelect(newValue);
+
+        const updatedPlan = {
+            ...plan,
+            packageInfo: newValue,
         };
         updateFields({ plan: updatedPlan });
     };
 
     const handleToggle = () => {
-        // setSelect()
         setBillingType((prev) => (prev === "monthly" ? "yearly" : "monthly"));
-        updateFields({
-            plan: {
-                ...plan,
-                planType: billingType === 'monthly' ? 'yearly' : 'monthly'
-            }
-        })
-    }
-    
-    if(billingType === 'monthly') {
-        PlanData.price.arcadePrice = '$9/mo',
-        PlanData.price.advancedPrice = '$12/mo'
-        PlanData.price.proPrice = '$15/mo'
-        PlanData.info = ' '
-    } else {
-        PlanData.price.arcadePrice = '$90/yr',
-        PlanData.price.advancedPrice = '$120/yr'
-        PlanData.price.proPrice = '$150/yr'
-        PlanData.info = ' 2 months free '
-    }
+        resetAddons()
+    };
 
-    useEffect(() => {
-        const updatedPackagePrice = billingType === 'monthly' ?
-            { packageName: selectValue.packageName, packagePrice: arcadePrice } :
-            { packageName: selectValue.packageName, packagePrice: proPrice };
-        setSelect(updatedPackagePrice);
+    console.log(data)
+    // console.log(selectValue)
 
-    }, [billingType]);
-    
-   
-    
-    return(
+
+    return (
         <>
-            <FormWrapper titleHeading="Select your plan" titleInfo="You have the option of monthly or yearly billing."> 
-            {planError && <small className="text-red">{planError}</small>}
-               <div className="flex flex-col mt-2 gap-5 lg:gap-0 lg:flex-row lg:space-x-4">
+            <FormWrapper titleHeading="Select your plan" titleInfo="You have the option of monthly or yearly billing.">
+                {planError && <small className="text-red">{planError}</small>}
+                <div className="flex flex-col mt-2 gap-5 lg:gap-0 lg:flex-row lg:space-x-4">
                     <RadioInput
                         name={"plan"}
                         id={"arcade"}
                         title={"Arcade"}
-                        icon = {<ArcadeSvg/>}
-                        price={arcadePrice}
-                        info={PlanData.info}
-                        checked={selectValue.packageName === "arcade" }
-                        value ={"arcade"}
-                        onChange={() => handleChange({ packageName: 'arcade', packagePrice: arcadePrice })}
+                        icon={<ArcadeSvg />}
+                        price={`$${prices.arcadePrice} ${billingType === 'monthly' ? '/mon' : '/yr'}`}
+                        info={billingType === 'yearly' ? '2 months free' : ' '}
+                        checked={selectValue.packageName === "arcade"}
+                        value={"arcade"}
+                        onChange={() => handleChange({ packageName: 'arcade', packagePrice: prices.arcadePrice })}
                     />
-                    <RadioInput 
+                    <RadioInput
                         name={"plan"}
                         id={"advanced"}
                         title={"Advanced"}
-                        icon = {<AdvanceSvg/>}
-                        price={advancedPrice}
-                        info={PlanData.info}
-                        checked={selectValue.packageName === "advanced" }
-                        value ={"advanced"}
-                        onChange={() => handleChange({ packageName: 'advanced', packagePrice: advancedPrice })}
+                        icon={<AdvanceSvg />}
+                        price={`$${prices.advancedPrice} ${billingType === 'monthly' ? '/mon' : '/yr'}`}
+                        info={billingType === 'yearly' ? '2 months free' : ' '}
+                        checked={selectValue.packageName === "advanced"}
+                        value={"advanced"}
+                        onChange={() => handleChange({ packageName: 'advanced', packagePrice: prices.advancedPrice })}
                     />
-                    <RadioInput 
+                    <RadioInput
                         name={"plan"}
                         id={"pro"}
                         title={"Pro"}
-                        icon = {<ProSvg/>}
-                        price={proPrice}
-                        info={PlanData.info}
+                        icon={<ProSvg />}
+                        price={`$${prices.advancedPrice} ${billingType === 'monthly' ? '/mon' : '/yr'}`}
+                        info={billingType === 'yearly' ? '2 months free' : ' '}
                         checked={selectValue.packageName === "pro"}
-                        value = {"pro"}
-                        onChange={() => handleChange({ packageName: 'pro', packagePrice: proPrice })}
+                        value={"pro"}
+                        onChange={() => handleChange({ packageName: 'pro', packagePrice: prices.proPrice })}
                     />
-               </div>
-               <div className="bg-grey-00 p-4 mt-7 w-full mx-auto rounded">
+                </div>
+                <div className="bg-grey-00 p-4 mt-7 w-full mx-auto rounded">
                     <ToggleSwitch
                         id={"billing"}
                         name={"billing"}
                         title={"billing"}
-                        onChange = {handleToggle} 
-                        isChecked={billingType === "monthly" } 
+                        onChange={handleToggle}
+                        isChecked={billingType === "monthly"}
                     />
-               </div>
+                </div>
             </FormWrapper>
         </>
-    )
+    );
 }
 
-export default Plan
+export default Plan;
