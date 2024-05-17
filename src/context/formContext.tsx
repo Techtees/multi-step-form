@@ -4,7 +4,6 @@ import { FormData } from '../types/global';
 interface FormContextType {
     data: FormData;
     validate:  (fieldName: keyof FormData, value: string) => string | undefined;
-
     error:string;
     emailError: string ;
     phoneError: string ;
@@ -15,6 +14,7 @@ interface FormContextType {
     setPlanError :(error: string) => void;
     updateFields: (fields: Partial<FormData>) => void;
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    resetAddons: () => void;
 }
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
@@ -46,7 +46,7 @@ export const FormProvider: React.FC<{ children: ReactNode}> = ({children}) => {
     const [error, setError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneError, setPhoneError] = useState('');
-    const [planError, setPlanError] = useState('')
+    const [planError, setPlanError] = useState('');
 
     const validate = (fieldName: keyof FormData, value: string): string | undefined => {
         switch (fieldName) {
@@ -105,6 +105,12 @@ export const FormProvider: React.FC<{ children: ReactNode}> = ({children}) => {
         }));
     };
 
+    const resetAddons = () => {
+        setData(prev => ({ ...prev, addons: [] }));
+    };
+
+    
+
     const value: FormContextType ={
         // updateFields,
         data,
@@ -119,7 +125,7 @@ export const FormProvider: React.FC<{ children: ReactNode}> = ({children}) => {
         updateFields,
         planError,
         setPlanError,
-
+        resetAddons,
     }
 
     return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
