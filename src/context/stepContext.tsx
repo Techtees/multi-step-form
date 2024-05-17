@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 
+
 const useStepProvider = (steps: React.ReactElement[]) => {
     const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
@@ -18,14 +19,17 @@ const useStepProvider = (steps: React.ReactElement[]) => {
 
     const isFirstStep = currentStepIndex === 0;
     const step = steps[currentStepIndex];
+    const isLastStep = steps.length
+
 
     return {
         isFirstStep,
         currentStepIndex,
+        isLastStep,
         step,
         next,
         back,
-        goTo
+        goTo,
     };
 };
 
