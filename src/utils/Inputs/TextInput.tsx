@@ -5,9 +5,6 @@ import { useFormContext } from '../../context/formContext'
 
 export const TextInput: React.FC<InputType> = ({ name, placeholder, type, label, value, onChange,  }) => {
     const { error, emailError, phoneError } = useFormContext();
-
-    console.log(error);
-
     return (
         <>
             <div className="flex flex-col mb-3">
@@ -22,7 +19,7 @@ export const TextInput: React.FC<InputType> = ({ name, placeholder, type, label,
                     type={type}
                     value={value}
                     placeholder={placeholder}
-                    className={`rounded-lg border border-borderColor h-[42px] outline-none focus:border-purple p-2 placeholder:text-md  text-denim font-[500]  ${((error || emailError || phoneError) && 'border-red') || ' '}`}
+                    className={`rounded-lg border border-borderColor h-[42px] outline-none focus:border-purple p-2 placeholder:text-md  text-denim font-[500] hover:cursor-pointer hover:border-purple  ${((error || emailError || phoneError) && 'border-red') || ' '}`}
                     onChange={onChange}
                 />
   
