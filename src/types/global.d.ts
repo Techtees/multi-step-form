@@ -16,10 +16,10 @@ type InputType = {
 
 interface Package {
     packageName: string,
-    packagePrice: string,
+    packagePrice: number,
 }
 interface Plan  {
-    package: Pacakge,
+    packageInfo: Pacakge,
     planType: string,
 }
 
@@ -28,5 +28,6 @@ export type FormData = {
     email: string,
     phone: string,
     plan: Plan;
+    addons: Array;
 }
 
