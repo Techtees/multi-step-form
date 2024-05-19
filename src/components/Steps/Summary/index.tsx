@@ -1,6 +1,7 @@
 import { FormWrapper } from "../../Forms/FormWrapper"
 import { useFormContext } from "../../../context/formContext"
-import { useStepContext } from '../../../context/stepContext';
+
+import CheckImg from '../../../assets/Check.png'
 
 interface Addon {
     name: string;
@@ -8,15 +9,16 @@ interface Addon {
     displayName: string;
 }
 
-const Summary = () => {
+interface Idan {
+    goTo: (index: number) => void
+}
 
-    const {data} = useFormContext()
-    const {goTo} = useStepContext()
-    console.log(goTo)
+const Summary: React.FC<Idan> = ({goTo}) => {
+
+    const {data, isConfirmed} = useFormContext()
     const{plan, addons} = data
     
 
-    console.log(addons)
     const {planType, packageInfo} =  plan
 
     // capitallize first letter
@@ -27,13 +29,22 @@ const Summary = () => {
     const totalPrice = totalAddons + packageInfo.packagePrice;
 
     const handleClick = () => {
-        goTo(2)
-        console.log("ff")
+        goTo(1)
+
     }
 
     return(
         <>
-            <FormWrapper titleHeading="FInishing Up" titleInfo="Double-check everything looks OK before confirming.">
+           {isConfirmed ? (
+             <div className="w-[450px] mt-12">
+                <div className="flex flex-col items-center justify-center py-8">
+                    <img src={CheckImg} className="w-[86px] mb-7" alt="" />
+                    <h2 className="text-center text-3xl font-bold text-denim">Thank you!</h2>
+                    <p className="text-center text-grey text-md mt-3">Thanks for confirming your subscription! We hope you have fun using our platform. If you ever need support, please feel free to email us at support@loremgaming.com.</p>
+                </div>
+             </div>
+           ) : (
+            <FormWrapper titleHeading="Finishing Up" titleInfo="Double-check everything looks OK before confirming.">
                 <div className="bg-grey-00 p-6">
                     <div className="flex justify-between items-center pb-5 border-b border-borderColor">
                         <div>
@@ -60,7 +71,9 @@ const Summary = () => {
                     <p className="text-grey">{`Total (per ${planType === 'yearly' ? 'year' : 'month'})`}</p>
                     <p className="font-bold text-purple text-2xl">{`+${totalPrice}${planType === 'monthly' ? '/mo' : '/yr'}`}</p>
                 </div>
-            </FormWrapper>
+             </FormWrapper>
+           )}
+            
         </>
     )
 }

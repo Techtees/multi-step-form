@@ -13,11 +13,16 @@ import {useFormContext} from '../context/formContext';
 
 export const StepWrapper: React.FC = () => {
 
-    const {data, validate, setError, setEmailError, setPhoneError, setPlanError} = useFormContext()
+    const {data, validate, setError, setEmailError, setPhoneError, setPlanError, isConfirmed, setIsConfirmed} = useFormContext()
     const { back, isFirstStep, currentStepIndex, goTo } = useStepContext();
 
     const handleNextStep = () => {
-        goTo(currentStepIndex + 1 )
+        if (currentStepIndex + 1 === 4 ){
+            currentStepIndex === 4
+        } else {
+
+            goTo(currentStepIndex + 1 )
+        }
     };
     
     
@@ -54,8 +59,13 @@ export const StepWrapper: React.FC = () => {
             } 
         }
 
+        
         handleNextStep()
+        if(currentStepIndex === 3) {
+            setIsConfirmed(true)
+        }
     };
+    console.log(isConfirmed)
     
     return (
         <>
@@ -67,21 +77,21 @@ export const StepWrapper: React.FC = () => {
                         <form onSubmit={handleSubmit}>
                             {steps[currentStepIndex]}
                             <div className="fixed bottom-0 p-4 lg:p-0 lg:absolute left-0 bg-white lg:bottom-3  w-full">
-                                <div className={`flex ${!isFirstStep ? 'justify-between' : 'justify-end'}`}>
+                                {isConfirmed ? '': (
+                                    <div className={`flex ${!isFirstStep ? 'justify-between' : 'justify-end'}`}>
                                     {!isFirstStep && <Button text="Go Back" btnType="primary" type="button" onClick={back} />}
                                     {<Button
                                         text={`${currentStepIndex+1 === isLastStep ? 'Submit' : 'Next Step'}`}
-                                        btnType={`${currentStepIndex+1 === isLastStep ? 'tertiary' : 'secondary'}`}
+                                        btnType={`${currentStepIndex === isLastStep ? 'tertiary' : 'secondary'}`}
                                         type="submit"
                                     />}
                                 </div>
+                                )}
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-
-            
         </>
     );
 };
