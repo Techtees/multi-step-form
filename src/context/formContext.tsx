@@ -15,6 +15,8 @@ interface FormContextType {
     updateFields: (fields: Partial<FormData>) => void;
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
     resetAddons: () => void;
+    isConfirmed: boolean;
+    setIsConfirmed: (type: boolean) => void 
 }
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
@@ -47,6 +49,7 @@ export const FormProvider: React.FC<{ children: ReactNode}> = ({children}) => {
     const [emailError, setEmailError] = useState('');
     const [phoneError, setPhoneError] = useState('');
     const [planError, setPlanError] = useState('');
+    const [isConfirmed, setIsConfirmed] = useState(false)
 
     const validate = (fieldName: keyof FormData, value: string): string | undefined => {
         switch (fieldName) {
@@ -126,6 +129,8 @@ export const FormProvider: React.FC<{ children: ReactNode}> = ({children}) => {
         planError,
         setPlanError,
         resetAddons,
+        isConfirmed,
+        setIsConfirmed
     }
 
     return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
