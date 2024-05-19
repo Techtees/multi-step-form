@@ -65,7 +65,6 @@ export const StepWrapper: React.FC = () => {
             setIsConfirmed(true)
         }
     };
-    console.log(isConfirmed)
     
     return (
         <>
@@ -73,7 +72,7 @@ export const StepWrapper: React.FC = () => {
             <div className="overflow-hidden lg:h-screen flex items-center justify-center">
                 <div className="lg:bg-white w-full lg:w-[940px] lg:p-5 lg:shadow-md lg:rounded-lg lg:flex lg:justify-between">
                     <SideBar currStep = {currentStepIndex} />
-                    <div className=" mx-auto max-w-[300px] md:max-w-[500px] shadow-md lg:shadow-none rounded-lg z-10 -top-[70px] lg:-top-[0] lg:w-[60%] lg:max-w-[450px]  items-start relative  bg-white p-5">
+                    <div className=" mx-auto max-w-[420px] md:max-w-[500px] shadow-md lg:shadow-none rounded-lg z-10 -top-[70px] lg:-top-[0] lg:w-[60%] lg:max-w-[450px]  items-start relative  bg-white p-6">
                         <form onSubmit={handleSubmit}>
                             {steps[currentStepIndex]}
                             <div className="fixed bottom-0 p-4 lg:p-0 lg:absolute left-0 bg-white lg:bottom-3  w-full">
