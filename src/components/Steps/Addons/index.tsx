@@ -25,8 +25,6 @@ const addonDisplayNames = {
   
 const Addons = () => {
     const {updateFields, data} = useFormContext()
-    // const {addons} = data
-    console.log(data)
 
     const [selectAddons, setAddons] = useState<Addon[]>(data.addons);
 
@@ -56,7 +54,6 @@ const Addons = () => {
         );
     }
 
-    console.log(selectAddons)
 
 
     return(

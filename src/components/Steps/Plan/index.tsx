@@ -83,8 +83,6 @@ const Plan = () => {
         resetAddons()
     };
 
-    console.log(data)
-    // console.log(selectValue)
 
 
     return (

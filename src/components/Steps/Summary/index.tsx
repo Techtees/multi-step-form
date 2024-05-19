@@ -36,7 +36,7 @@ const Summary: React.FC<Idan> = ({goTo}) => {
     return(
         <>
            {isConfirmed ? (
-             <div className="w-[450px] mt-12">
+             <div className="lg:w-[450px] mt-12">
                 <div className="flex flex-col items-center justify-center py-8">
                     <img src={CheckImg} className="w-[86px] mb-7" alt="" />
                     <h2 className="text-center text-3xl font-bold text-denim">Thank you!</h2>
