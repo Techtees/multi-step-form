@@ -40,8 +40,10 @@ const Addons = () => {
         addonPrice.largeStorage = 20
         addonPrice.cuProfile = 20
     }
+
     useEffect(() => {
         updateFields({ addons: selectAddons });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectAddons]);
 
 
